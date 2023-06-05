@@ -1,9 +1,17 @@
-export const addTodo = (data) => {
+export const addTodo = (todo) => {
     return {
         type: 'ADD_TODO',
-        payload: data
+        payload: todo
     };
 };
+
+export const toggleState = (index) => {
+    return {
+        type: 'TOGGLE_STATE',
+        payload:index
+    };
+};
+
 
 export const deleteAllTodos = () => {
     return {
@@ -11,7 +19,7 @@ export const deleteAllTodos = () => {
     };
 };
 
-export const deleteTodo = (index) => {
+export const deleteSingleTodo = (index) => {
     return {
         type: 'DELETE_TODO',
         payload: index

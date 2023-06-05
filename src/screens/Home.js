@@ -1,57 +1,65 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-
+import { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity, ScrollView } from 'react-native';
+import CheckBox from '../components/checkbox/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, deleteAllTodos, deleteTodo } from '../redux/actions/todoAction';
+import { addTodo, deleteAllTodos, toggleState, deleteSingleTodo } from '../redux/actions/todoAction';
+import TaskDetails from '../components/TaskDetails';
+
 
 export default function Home() {
+    const [selectedTodo, setSelectedTodo] = useState(-1);
     const dispatch = useDispatch();
 
-    const todos = useSelector((store) => store.todos);
+    const todoList = useSelector((store) => store.todos);
 
-    const add = (todo) => {
+    const addNewTodo = (todo) => {
         dispatch(addTodo(todo));
     };
 
-    const deleteAll = () => {
+    const deleteAllTodoItem = () => {
         dispatch(deleteAllTodos());
+    };
+
+    const updateState = (index) => {
+        dispatch(toggleState(index));
     };
 
     return (
         <View style={styles.container}>
 
-            <Text style={styles.details}>Task Details</Text>
+            <Text style={styles.taskDetails}>Task Details</Text>
 
-            <Text >Task Tittle</Text>
-            <Text style={styles.title}>THis is tittle</Text>
-
-            <Text>Descriptions</Text>
-            <Text style={styles.description}>this is a Descriptions</Text>
+            {selectedTodo >= 0 && <TaskDetails todo={todoList[selectedTodo]} />}
 
             <View style={styles.tasklist}>
                 <Text>Task List</Text>
-                <TouchableOpacity onPress={deleteAll}>
-                    <Text>deleteAll</Text>
+                <TouchableOpacity 
+                onPress={() => {setSelectedTodo(-1);
+                deleteAllTodoItem()}}>
+                    <Image source={require('../components/deletebtn/dustbin.png')} />
                 </TouchableOpacity>
             </View>
 
             <View>
-                {todos.map((todo, index) => (
-                    <View style={styles.todo}>
-                        <TouchableOpacity style={{ marginRight: 10 }}
-                            onPress={() => { }}>
-                            <Text>checkbox</Text>
-                        </TouchableOpacity>
-                        <Text>{todo.tittle}</Text>
-                    </View>
-                ))}
+                <ScrollView>
+                    {todoList.map((todo, index) => (
+                        <View style={styles.todo} key={index}>
+                            
+                            {/* checkbox */}
+                            <TouchableOpacity onPress={() => { updateState(index) }}>
+                                <CheckBox value={todo.done} />
+                            </TouchableOpacity>
+                            
+                            {/* tittle of task list*/}
+                            <TouchableOpacity onPress={()=>setSelectedTodo(index)}>
+                                <Text>{todo.tittle}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
             </View>
 
-            <View style={styles.addbtn}>
-                <TouchableOpacity onPress={() => { }}>
-                    <Text>Add Task</Text>
-                </TouchableOpacity>
-            </View>
-
+            <Button onPress={() => { }} title='Add Task' style={styles.addbtn}></Button>
         </View>
     );
 }
@@ -61,38 +69,26 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         flexDirection: 'column',
-        padding: 10
+        padding: 15,
     },
-    details: {
-        margin: 40,
+    taskDetails: {
+        marginVertical: 30,
         fontWeight: 'bold',
         alignSelf: 'center',
         fontSize: 15,
     },
-    title: {
-        marginTop: 10,
-        marginBottom: 10,
-        fontWeight: 'bold',
-        fontSize: 25,
-    },
-    description: {
-        marginTop: 10,
-        marginBottom: 10,
-        fontWeight: 'bold',
-    },
     tasklist: {
         flexDirection: "row",
-        marginTop: 10,
-        marginBottom: 10,
+        marginVertical: 10,
         justifyContent: "space-between"
     },
     todo: {
         flexDirection: "row",
         margin: 10,
         padding: 10,
-        backgroundColor: "#eee",
+        backgroundColor: "#f0f0f0",
     },
     addbtn: {
-        
+
     }
 });
