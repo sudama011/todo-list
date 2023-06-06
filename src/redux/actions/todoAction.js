@@ -1,27 +1,19 @@
-export const addTodo = (todo) => {
-    return {
-        type: 'ADD_TODO',
-        payload: todo
-    };
-};
+export const addTodo = (todo) => ({
+    type: 'ADD_TODO',
+    payload: {
+        ...todo,
+        id: Date.now(),
+        completed: false
+    }
+});
 
-export const toggleState = (index) => {
-    return {
-        type: 'TOGGLE_STATE',
-        payload:index
-    };
-};
+export const completeTodo = index => ({
+    type: 'COMPLETE_TODO',
+    payload: {
+        index,
+    },
+});
 
-
-export const deleteAllTodos = () => {
-    return {
-        type: 'DELETE_TODOS'
-    };
-};
-
-export const deleteSingleTodo = (index) => {
-    return {
-        type: 'DELETE_TODO',
-        payload: index
-    };
-};
+export const deleteAllTodos = () => ({
+    type: 'DELETE_ALL_TODOS',
+});

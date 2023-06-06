@@ -4,7 +4,7 @@ import {StyleSheet, View,Text ,Image} from 'react-native'
 export default function CheckBox({value}) {
   return (
     <View style={{ ...styles.container, backgroundColor: value ? '#7f56d9' : '#ffffff' }}>
-      {value && <Image source={require('./tickIcon.png')}/>}
+      {value && <Image source={require('../assets/tickIcon.png')}/>}
     </View>
   )
 }
