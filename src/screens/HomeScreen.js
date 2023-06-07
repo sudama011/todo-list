@@ -1,31 +1,21 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Modal, Text, View, Image, TouchableOpacity} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTodo, deleteAllTodos, completeTodo } from '../redux/actions/todoAction';
 import TaskDetails from '../components/TaskDetails';
+import TaskInput from '../components/TaskInput';
 import AddTaskBtn from '../components/AddTaskBtn';
 import TodoList from '../components/TodoList';
 
 export default function HomeScreen() {
-    const [tittle, setTittle] = useState('');
-    const [description, setDescription] = useState('');
-
+    const [taskInputModalVisible, setTaskInputModalVisible] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(-1);
 
     const dispatch = useDispatch();
     const todos = useSelector((store) => store.todos);
 
-    const handleAddTodo = () => {
-        if (tittle.trim() && description.trim()) {
-            const newTodo = {
-                tittle: tittle,
-                description: description,
-                completed: false,
-            };
-            dispatch(addTodo(newTodo));
-            setTittle('');
-            setDescription('');
-        }
+    const handleAddTodo = (todo) => {
+        dispatch(addTodo(todo));
     };
 
     const handleCompleteTodo = id => {
@@ -41,6 +31,15 @@ export default function HomeScreen() {
 
             <Text style={styles.taskDetails}>Task Details</Text>
 
+            <Modal
+                style={{margin:30,height:30}}
+                animationType="slide"
+                transparent={false}
+                visible={taskInputModalVisible}
+                >
+                <TaskInput setTaskInputModalVisible={setTaskInputModalVisible} handleAddTodo={handleAddTodo} />
+            </Modal>
+
             {selectedTodo >= 0 && <TaskDetails todo={todos[selectedTodo]} />}
 
             <View style={styles.tasklist}>
@@ -54,14 +53,17 @@ export default function HomeScreen() {
                 </TouchableOpacity>
             </View>
 
-            <View>
-                <TodoList todos={todos}
-                    onComplete={(id) => handleCompleteTodo(id)}
-                    setSelectedTodo={(index) => setSelectedTodo(index)}
-                />
+            <View style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
+                    <TodoList todos={todos}
+                        onComplete={(id) => handleCompleteTodo(id)}
+                        setSelectedTodo={(index) => setSelectedTodo(index)}
+                    />
+                </View>
+                
+                 <AddTaskBtn setTaskInputModalVisible={setTaskInputModalVisible} />
             </View>
 
-            <AddTaskBtn />
         </View>
     );
 }

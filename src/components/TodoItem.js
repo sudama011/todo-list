@@ -9,19 +9,26 @@ export default function TodoItem({ todo, onComplete, setSelectedTodo }){
                 <CheckBox value={todo.completed} />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setSelectedTodo()}>
-                <Text>{todo.tittle}</Text>
-            </TouchableOpacity>
+            <View style={styles.tittle}>
+                <TouchableOpacity onPress={() => setSelectedTodo()}>
+                    <Text >{todo.tittle}</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     todo: {
+        flex: 1,
+        alignItems: "center",
         flexDirection: "row",
         margin: 10,
         padding: 10,
         backgroundColor: "#f0f0f0",
         borderRadius: 16,
+    },
+    tittle:{
+        flex:1,
     }
 });

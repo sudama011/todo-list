@@ -1,15 +1,15 @@
 import { Text, StyleSheet, TouchableOpacity, Image, View } from "react-native"
 
-export default function AddTaskBtn({}) {
+export default function AddTaskBtn({ setTaskInputModalVisible, setSelectedTodo }) {
   return (
     <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => { }} style={styles.addbtn}>
+      <TouchableOpacity
+        onPress={() => { setTaskInputModalVisible(true) }} style={styles.addbtn}>
 
-          <Image source={require('../assets/plus.png')} style={styles.plus}/>
-          <Text>Add Task</Text>
+        <Image source={require('../assets/plus.png')} style={styles.plus} />
+        <Text>Add Task</Text>
 
-        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -21,18 +21,18 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#f0f0f0",
-    height: 60,
     margin: 10,
-    padding: 10,
+    backgroundColor: "#f0f0f0",
+    height: 50,
+    marginHorizontal: 16,
     borderRadius: 16,
   },
   addbtn: {
     flex: 1,
-    flexDirection:'row',
+    flexDirection: 'row',
     alignItems: "center",
   },
-  plus:{
+  plus: {
     marginHorizontal: 20,
   }
 });

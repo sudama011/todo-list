@@ -4,6 +4,7 @@ import TodoItem from './TodoItem';
 export default function TodoList({ todos, onComplete, setSelectedTodo }) {
     return (
         <FlatList
+            style={{marginBottom:60}}
             data={todos}
             renderItem={({ item, index }) => (
                 <TodoItem todo={item}

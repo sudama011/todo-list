@@ -11,7 +11,6 @@ export default function CheckBox({value}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'ffffff',
@@ -20,6 +19,6 @@ const styles = StyleSheet.create({
     borderRadius:70,
     border : 1,
     borderColor: 'grey',
-    marginRight:8
+    margin:8
   }
 });
